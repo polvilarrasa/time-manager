@@ -1,15 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { GoogleAuthProvider, getAuth, inMemoryPersistence, setPersistence, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import React, { useState } from 'react';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { TEInput, TERipple } from "tw-elements-react";
 import routes from '../../resources/routes';
-import { GlobalContext } from '../../context/GlobalState';
 import { setUser } from '../../repository/localStorage/LocalStorageUserRepository';
 import { createRegister } from '../../repository/firestore/TimeRegisterFirestoreRepository';
 
 export default function Login() {
-    const { userActions } = React.useContext(GlobalContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,10 +16,7 @@ export default function Login() {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                navigate(routes.HOME)
-                setUser(user)
+                navigate(routes.HOME);
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -32,11 +27,8 @@ export default function Login() {
 
     const signInWithGoogle = async () => {
         try {
-           
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
-            console.log("user",user)
-            setUser(user.acessToken);
             const timeRegister = {
                 2023: {
                     3: "pepe",

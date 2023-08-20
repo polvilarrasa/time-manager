@@ -1,24 +1,21 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../context/GlobalState';
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../firebase';
 import routes from '../resources/routes';
-import { getUser } from '../repository/localStorage/LocalStorageUserRepository';
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { removeUser, setUser } from '../repository/localStorage/LocalStorageUserRepository';
 
 const AuthGuard = ({ component }) => {
-    const auth = getAuth();
-    const { user } = React.useContext(GlobalContext);
-
     const navigate = useNavigate();
 
     useEffect(() => {
-        const idToken = getUser();
-        const checkRevoked=true
-        
-        getAuth()
-        .verifyIdToken(idToken, checkRevoked)
-        .catch((error) => {
-            navigate(routes.LOGIN);
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate(routes.LOGIN);
+                removeUser();
+            } else {
+                setUser(user);
+            }
         });
     }, []);
 

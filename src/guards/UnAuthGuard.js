@@ -1,27 +1,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../context/GlobalState';
-import routes from '../resources/routes';
-import { getUser } from '../repository/localStorage/LocalStorageUserRepository';
 import { onAuthStateChanged } from 'firebase/auth'
-import { auth, googleProvider } from '../firebase';
+import { auth } from '../firebase';
+import routes from '../resources/routes';
+import { removeUser, setUser } from '../repository/localStorage/LocalStorageUserRepository';
 
-const UnAuthGuard = ({component}) => {
-    const { user } = React.useContext(GlobalContext);
+const UnAuthGuard = ({ component }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const idToken = getUser();
-        const checkRevoked=true
-
-        auth
-        .verifyIdToken(idToken, checkRevoked)
-        .then((payload) => {
-            navigate(routes.HOME);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate(routes.HOME);
+                setUser(user);
+            } else {
+                removeUser();
+            }
         });
-       // if (getUser() !== null) {
-         //   navigate(routes.HOME);
-       // }
     }, [component]);
 
     return <React.Fragment>{component}</React.Fragment>

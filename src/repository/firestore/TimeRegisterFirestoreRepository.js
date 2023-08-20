@@ -1,4 +1,4 @@
-import { collection, setDoc, getDocs, doc, addDoc } from "firebase/firestore";
+import { collection, setDoc, getDocs, doc, addDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const createRegister = async (userId, timeRegister) => {
@@ -9,14 +9,17 @@ const createRegister = async (userId, timeRegister) => {
     }
 };
 
-const getRegistersByYearMonth = async (userId, year, month) => {
-    const registers = [];
-    const querySnapshot = await getDocs(collection(db, "register/" + userId + "/" + year + "/" + month));
-    console.log(querySnapshot);
+const getRegistersByUser = async (userId) => {
+    let registers = {};
+    const docRef = doc(db, "time-register", userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        registers = docSnap.data();
+    }
     return registers;
 };
 
 export {
     createRegister,
-    getRegistersByYearMonth
+    getRegistersByUser
 };

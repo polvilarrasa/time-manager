@@ -5,7 +5,7 @@ import { Button } from 'primereact/button'
 import { Calendar } from 'primereact/calendar'
 import { addLocale } from 'primereact/api';
 import { calendarLocale } from '../resources/literals';
-import { createRegister, getRegistersByYearMonth } from '../repository/firestore/TimeRegisterFirestoreRepository';
+import { createRegister, getRegistersByUser } from '../repository/firestore/TimeRegisterFirestoreRepository';
 import { getUser } from '../repository/localStorage/LocalStorageUserRepository'
 
 const emptyTimeRegister = {
@@ -30,12 +30,10 @@ const Home = () => {
     const [rows, setRows] = useState([]);
     const [date, setDate] = useState(new Date());
 
-    const rowsData = [];
-
-    if (user !== null) {
-        const rowsData = getRegistersByYearMonth(getUser().uid, date.getFullYear(), date.getMonth());
-    }
-    console.log(rowsData);
+    const registersPromise = getRegistersByUser(getUser()?.uid);
+    registersPromise.then((data) => {
+        setRows(data[date.getFullYear()][date.getMonth() + 1]);
+    });
 
     const handleOnChange = (e) => {
         setDate(e.value);
