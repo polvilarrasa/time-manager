@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth, inMemoryPersistence, setPersistence, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { TEInput, TERipple } from "tw-elements-react";
@@ -32,10 +32,11 @@ export default function Login() {
 
     const signInWithGoogle = async () => {
         try {
+           
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
             console.log("user",user)
-            setUser(user);
+            setUser(user.acessToken);
             const timeRegister = {
                 2023: {
                     3: "pepe",

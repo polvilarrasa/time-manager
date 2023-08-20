@@ -1,9 +1,16 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 
 export default function TimeRegister({ rowId, timeRegister, deleteRow }) {
+
+    useEffect(() => {
+        setInitialTime(timeRegister.initialTime);
+        setEndTime(timeRegister.endTime);
+        setEndTimeDisabled(timeRegister.endTime === null ? true : false);
+        setMinDate(timeRegister.initialTime === null ? undefined : timeRegister.initialTime);
+    }, [timeRegister, ]);
     
     const [initialTime, setInitialTime] = useState(timeRegister.initialTime);
     const [endTime, setEndTime] = useState(timeRegister.endTime);

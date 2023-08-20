@@ -1,19 +1,23 @@
+import { getAuth } from "firebase/auth";
+
 /**
  * Cerca l'usuari de login en el context, sino el troba el busca a la local storage
  */
 function getUser() {
-    return localStorage.getItem("user");
+    const auth = getAuth();
+    return auth.currentUser;
 };
 
 /**
  * Guarda l'usuari al local storage
  */
-function setUser(user) {
-    localStorage.setItem("user", user.accessToken);
+function setUser(token) {
+    localStorage.setItem("user",token)
 };
 
 function removeUser() {
-    localStorage.removeItem("user");
+   const auth = getAuth();
+   auth.signOut();
 }
 
 export {

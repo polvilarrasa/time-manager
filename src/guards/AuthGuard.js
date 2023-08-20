@@ -12,9 +12,14 @@ const AuthGuard = ({ component }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (getUser() == null) {
+        const idToken = getUser();
+        const checkRevoked=true
+        
+        getAuth()
+        .verifyIdToken(idToken, checkRevoked)
+        .catch((error) => {
             navigate(routes.LOGIN);
-        }
+        });
     }, []);
 
     return <React.Fragment>{component}</React.Fragment>

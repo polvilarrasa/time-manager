@@ -57,9 +57,9 @@ body {
   position: relative;
   background-color: green;
   border-radius: 50%;
-  color: green;
+  color: transparent;
   float: left;
   width: 9px;
   height: 9px;
-  margin: -5px;
+  margin: -4px;
 }
