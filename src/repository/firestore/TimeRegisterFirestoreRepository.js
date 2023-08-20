@@ -2,11 +2,7 @@ import { collection, setDoc, getDocs, doc, addDoc, getDoc } from "firebase/fires
 import { db } from "../../firebase";
 
 const createRegister = async (userId, timeRegister) => {
-    try {
-        await setDoc(doc(db, "time-register/", userId), timeRegister, { merge: true });
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
+    await setDoc(doc(db, "time-register/", userId), timeRegister, { merge: true });
 };
 
 const getRegistersByUser = async (userId) => {

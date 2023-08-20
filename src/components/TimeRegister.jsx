@@ -3,32 +3,50 @@ import React, { useState, useEffect } from "react";
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 
-export default function TimeRegister({ rowId, timeRegister, deleteRow }) {
+export default function TimeRegister({ rowId, timeRegister, deleteRow, editRow }) {
 
     useEffect(() => {
-        setInitialTime(timeRegister.initialTime);
-        setEndTime(timeRegister.endTime);
-        setEndTimeDisabled(timeRegister.endTime === null ? true : false);
-        setMinDate(timeRegister.initialTime === null ? undefined : timeRegister.initialTime);
+        setInitialTime(timeRegister.initial);
+        setEndTime(timeRegister.end);
+        setEndTimeDisabled(timeRegister.end === null ? true : false);
+        setMinDate(timeRegister.initial === null ? undefined : timeRegister.initial);
     }, [timeRegister, ]);
-    
-    const [initialTime, setInitialTime] = useState(timeRegister.initialTime);
-    const [endTime, setEndTime] = useState(timeRegister.endTime);
-    const [endTimeDisabled, setEndTimeDisabled] = useState(timeRegister.endTime === null ? true : false);
+
+    const [initialTime, setInitialTime] = useState(timeRegister.initial ?? {hours: null, minutes: null});
+    const [endTime, setEndTime] = useState(timeRegister.end ?? {hours: null, minutes: null});
+    const [endTimeDisabled, setEndTimeDisabled] = useState(timeRegister.end === null ? true : false);
     const [minDate, setMinDate] = useState(undefined);
 
     const handleInitialTime = (e) => {
-        setInitialTime(e.value);
+        setInitialTime({
+            hours: e.value?.getHours(),
+            minutes: e.value?.getMinutes()
+        });
 
         let disableEndTime = e.value === null ? true : false;
         setEndTimeDisabled(disableEndTime);
 
-        let minDate = e.value === null ? undefined : e.value;
-        setMinDate(minDate);
+        editRow(rowId, {
+            initial: {
+                hours: e.value?.getHours(),
+                minutes: e.value?.getMinutes()
+            },
+            end: endTime
+        });
     };
 
     const handleEndTime = (e) => {
-        setEndTime(e.value);
+        setEndTime({
+            hours: e.value?.getHours(),
+            minutes: e.value?.getMinutes()
+        });
+        editRow(rowId, {
+            initial: initialTime,
+            end: {
+                hours: e.value?.getHours(),
+                minutes: e.value?.getMinutes()
+            }
+        });
     };
 
     const handleDeleteRow = () => {
@@ -43,7 +61,7 @@ export default function TimeRegister({ rowId, timeRegister, deleteRow }) {
                     <span className="p-inputgroup-addon">
                         <i className="pi pi-clock"></i>
                     </span>
-                    <Calendar id="calendar-timeonly-start" value={initialTime} onChange={handleInitialTime} timeOnly
+                    <Calendar id="calendar-timeonly-start" value={new Date(0,0,1,initialTime.hours, initialTime.minutes)} onChange={handleInitialTime} timeOnly
                         inputClassName="p-inputtext-sm" />
                 </div>
             </div>
@@ -53,8 +71,8 @@ export default function TimeRegister({ rowId, timeRegister, deleteRow }) {
                     <span className="p-inputgroup-addon">
                         <i className="pi pi-clock"></i>
                     </span>
-                    <Calendar id="calendar-timeonly-end" value={endTime} onChange={handleEndTime} timeOnly 
-                        disabled={endTimeDisabled} minDate={minDate} inputClassName="p-inputtext-sm" />
+                    <Calendar id="calendar-timeonly-end" value={new Date(0,0,1,endTime.hours, endTime.minutes)} onChange={handleEndTime} timeOnly 
+                        disabled={endTimeDisabled} inputClassName="p-inputtext-sm" />
                 </div>
             </div>
             <div className="place-self-start">
