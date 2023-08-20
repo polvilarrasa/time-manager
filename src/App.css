@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+html,
+body {
+  height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  margin: 0;
+  font-family: Segoe UI, Tahoma, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Sample input,
+.Sample button {
+  font: inherit;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.Sample header {
+  background-color: #323639;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  padding: 20px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Sample header h1 {
+  font-size: inherit;
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Sample__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.Sample__container > * > * {
+  margin: 10px;
+}
+
+.Sample__container__content {
+  display: flex;
+  max-width: 100%;
+  flex-basis: 420px;
+  flex-direction: column;
+  flex-grow: 100;
+  align-items: stretch;
+  padding-top: 1em;
+}
+
+.Sample__container__content .react-calendar {
+  margin: 0 auto;
+}
+
+.filled-date::before {
+  content: " · ";
+  position: relative;
+  background-color: green;
+  border-radius: 50%;
+  color: green;
+  float: left;
+  width: 9px;
+  height: 9px;
+  margin: -5px;
 }
