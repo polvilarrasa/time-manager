@@ -1,4 +1,4 @@
-import { collection, setDoc, getDocs, doc, addDoc, getDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const createRegister = async (userId, timeRegister) => {
