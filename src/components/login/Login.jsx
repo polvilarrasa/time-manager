@@ -4,7 +4,6 @@ import { auth, googleProvider } from '../../firebase';
 import { NavLink, useNavigate } from 'react-router-dom'
 import { TEInput, TERipple } from "tw-elements-react";
 import routes from '../../resources/routes';
-import { setUser } from '../../repository/localStorage/LocalStorageUserRepository';
 import { createRegister } from '../../repository/firestore/TimeRegisterFirestoreRepository';
 
 export default function Login() {
