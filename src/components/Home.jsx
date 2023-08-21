@@ -25,6 +25,7 @@ const Home = () => {
     };
     addLocale('es', calendarLocale);
     
+    const [firebaseData, setFirebaseData] = useState({});
     const [rows, setRows] = useState([]);
     const [date, setDate] = useState(new Date());
     const [isLoading, setIsLoading] = useState(true);
@@ -32,17 +33,20 @@ const Home = () => {
     useEffect(() => {
         const registersPromise = getRegistersByUser(user?.uid);
         registersPromise.then((data) => {
-            let firebaseData = data[date.getFullYear()][date.getMonth() + 1][date.getDate()];
-            setRows(firebaseData ?? []);
-            setIsLoading(false);
+            setFirebaseData(data);
         });
     }, [date]);
+
+    useEffect(() => {
+        let data = firebaseData[date.getFullYear()]?.[date.getMonth() + 1]?.[date.getDate()];
+        setRows(data ?? []);
+        setIsLoading(false);
+    }, [firebaseData]);
 
 
     const dateTemplate = (date) => {
         let isDateFilled = false;
-        console.log('rows', rows[date.year]?.[date.month + 1]?.[date.day]);
-        isDateFilled = rows[date.year]?.[date.month + 1]?.[date.day] ? true : false;
+        isDateFilled = firebaseData[date.year]?.[date.month + 1]?.[date.day]?.length > 0 ? true : false;
         return (
             <span className={isDateFilled ? 'filled-date' : 'empty-date'}>{date.day}</span>
         );
@@ -50,7 +54,6 @@ const Home = () => {
 
     const handleOnChange = (e) => {
         setDate(e.value);
-        console.log('date', e.value);
     };
 
     const deleteRow = (index) => {
@@ -70,7 +73,6 @@ const Home = () => {
     const handleOnChangeRow = (index, value) => {
         const newRows = [...rows];
         newRows[index] = value;
-        console.log('newRows', newRows);
         setRows(newRows);
     };
 
@@ -89,6 +91,7 @@ const Home = () => {
         };
         try {
             createRegister(user?.uid, timeRegister);
+
             showAlert('success', 'Éxito', 'Se han guardado los datos');
         } catch (error) {
             showAlert('error', 'Error', 'No se pudo guardar los datos: ' + error);

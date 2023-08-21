@@ -9,13 +9,11 @@ export default function TimeRegister({ rowId, timeRegister, deleteRow, editRow }
         setInitialTime(timeRegister.initial);
         setEndTime(timeRegister.end);
         setEndTimeDisabled(timeRegister.end === null ? true : false);
-        setMinDate(timeRegister.initial === null ? undefined : timeRegister.initial);
     }, [timeRegister, ]);
 
     const [initialTime, setInitialTime] = useState(timeRegister.initial ?? {hours: null, minutes: null});
     const [endTime, setEndTime] = useState(timeRegister.end ?? {hours: null, minutes: null});
     const [endTimeDisabled, setEndTimeDisabled] = useState(timeRegister.end === null ? true : false);
-    const [minDate, setMinDate] = useState(undefined);
 
     const handleInitialTime = (e) => {
         setInitialTime({
@@ -71,8 +69,8 @@ export default function TimeRegister({ rowId, timeRegister, deleteRow, editRow }
                     <span className="p-inputgroup-addon">
                         <i className="pi pi-clock"></i>
                     </span>
-                    <Calendar id="calendar-timeonly-end" value={new Date(0,0,1,endTime.hours, endTime.minutes)} onChange={handleEndTime} timeOnly 
-                        disabled={endTimeDisabled} inputClassName="p-inputtext-sm" />
+                    <Calendar id="calendar-timeonly-end" value={new Date(0,0,1,endTime.hours, endTime.minutes)} timeOnly 
+                        onChange={handleEndTime} disabled={endTimeDisabled} inputClassName="p-inputtext-sm" />
                 </div>
             </div>
             <div className="place-self-start">
