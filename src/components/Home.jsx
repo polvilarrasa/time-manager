@@ -102,29 +102,31 @@ const Home = () => {
         <div className="m-2">
             <Header />
             <Toast ref={toast} />
-            <div className="grid grid-cols-2 mt-3">
-                <div className="flex justify-center mt-5">
-                    <Calendar inline maxDate={new Date()} locale='es' value={date}
-                        dateTemplate={dateTemplate} onChange={handleOnChange} />
-                </div>
-                <div className="mt-5">
-                    <h2 className="text-4xl font-medium leading-tight mb-3 text-center">Registros del día {date.getDate()}</h2>
-                    <div className="grid justify-center mt-2">
-                        <span className="p-buttonset">
-                            <Button label="Añadir" icon="pi pi-plus" size='small' onClick={addRow} />
-                            <Button label="Eliminar todo" icon="pi pi-trash" size='small' onClick={deleteAllRows} />
-                            <Button label="Guardar" icon="pi pi-save" size='small' onClick={handleSave} />
-                        </span>
+            <div className="container mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-3">
+                    <div className="flex justify-center mt-5">
+                        <Calendar inline maxDate={new Date()} locale='es' value={date}
+                            dateTemplate={dateTemplate} onChange={handleOnChange} />
                     </div>
-                    <div className="justify-center mt-3 grid-flow-row auto-rows-max grid">
-                        {
-                            isLoading 
-                            ? <ProgressSpinner /> 
-                            : rows.map((timeRegister, index) => (
-                                <TimeRegister key={index} rowId={index} timeRegister={timeRegister} 
-                                    deleteRow={deleteRow} editRow={handleOnChangeRow} />
-                            ))
-                        }
+                    <div className="mt-5">
+                        <h2 className="text-4xl font-medium leading-tight mb-3 text-center">Registros del día {date.getDate()}</h2>
+                        <div className="grid justify-center mt-2">
+                            <span className="p-buttonset">
+                                <Button label="Añadir" icon="pi pi-plus" size='small' onClick={addRow} />
+                                <Button label="Eliminar todo" icon="pi pi-trash" size='small' onClick={deleteAllRows} />
+                                <Button label="Guardar" icon="pi pi-save" size='small' onClick={handleSave} />
+                            </span>
+                        </div>
+                        <div className="justify-center mt-3 grid-flow-row auto-rows-max grid">
+                            {
+                                isLoading 
+                                ? <ProgressSpinner /> 
+                                : rows.map((timeRegister, index) => (
+                                    <TimeRegister key={index} rowId={index} timeRegister={timeRegister} 
+                                        deleteRow={deleteRow} editRow={handleOnChangeRow} />
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

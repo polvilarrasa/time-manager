@@ -52,8 +52,8 @@ export default function TimeRegister({ rowId, timeRegister, deleteRow, editRow }
     };
 
     return (
-        <div id={rowId} className="grid grid-cols-6 gap-3 place-content-center place-items-center">
-            <div id="initialTime" className="col-start-2 col-span-2">
+        <div id={rowId} className="grid grid-cols-6 sm:grid-cols-7 gap-3 place-content-center place-items-center">
+            <div id="initialTime" className="col-start-2 col-span-2 sm:col-span-3 sm:col-start-1">
                 <label htmlFor="calendar-timeonly-start" className="block">Entrada</label>
                 <div className="p-inputgroup">
                     <span className="p-inputgroup-addon">
@@ -63,7 +63,7 @@ export default function TimeRegister({ rowId, timeRegister, deleteRow, editRow }
                         inputClassName="p-inputtext-sm" />
                 </div>
             </div>
-            <div id="endTime" className="col-span-2">
+            <div id="endTime" className="col-span-2  sm:col-span-3">
                 <label htmlFor="calendar-timeonly-end" className="block">Salida</label>
                 <div className="p-inputgroup">
                     <span className="p-inputgroup-addon">
